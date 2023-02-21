@@ -79,7 +79,7 @@ impl Default for Config {
 
 /// Create a datalink channel using the WinPcap library.
 #[inline]
-pub fn channel(network_interface: &NetworkInterface, config: Config) -> io::Result<super::Channel> {
+pub fn channel(network_interface: &NetworkInterface, _: u16, config: Config) -> io::Result<super::Channel> {
     let mut read_buffer = Vec::new();
     read_buffer.resize(config.read_buffer_size, 0u8);
 

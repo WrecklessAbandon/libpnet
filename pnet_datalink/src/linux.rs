@@ -97,10 +97,9 @@ impl Default for Config {
 
 /// Create a data link channel using the Linux's `AF_PACKET` socket type.
 #[inline]
-pub fn channel(network_interface: &NetworkInterface, config: Config) -> io::Result<super::Channel> {
-    let eth_p_all = 0x0003;
+pub fn channel(network_interface: &NetworkInterface, eth_proto: u16, config: Config) -> io::Result<super::Channel> {
     let (typ, proto) = match config.channel_type {
-        super::ChannelType::Layer2 => (libc::SOCK_RAW, eth_p_all),
+        super::ChannelType::Layer2 => (libc::SOCK_RAW, eth_proto),
         super::ChannelType::Layer3(proto) => (libc::SOCK_DGRAM, proto),
     };
     let socket = unsafe { libc::socket(libc::AF_PACKET, typ, proto.to_be() as i32) };
